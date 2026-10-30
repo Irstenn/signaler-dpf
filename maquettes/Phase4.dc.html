@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signaler-DPF — Phase 4, COSTU</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#EEF1EF}
+a{color:#1A5A85}a:hover{color:#0F3D5C}
+.lbl{display:block;font-size:14px;font-weight:600;margin-bottom:6px;color:#13212B}
+.in{box-sizing:border-box;width:100%;min-height:44px;padding:10px 12px;border:1px solid #7D8A91;border-radius:8px;font:inherit;font-size:15px;color:#13212B;background:#fff}
+.in[readonly]{background:#F1F4F5;border-color:#C9D1D5}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 20px;border-radius:8px;font:inherit;font-weight:600;font-size:15px;text-decoration:none;border:1px solid transparent;cursor:pointer}
+.btn-p{background:#1A5A85;color:#fff}.btn-p:hover{background:#0F3D5C;color:#fff}
+.btn-s{background:#fff;color:#1A5A85;border-color:#1A5A85}
+.card{background:#fff;border:1px solid #DCE2E5;border-radius:12px;padding:22px}
+.mono{font-family:'IBM Plex Mono',monospace}
+.k{font-size:13px;color:#56636B}
+.num{flex:0 0 auto;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+</style>
+<script src="./dc-lite.js"></script>
+</head>
+<body>
+<template id="dc-template">
+
+<div style="min-height:100vh;font-family:'IBM Plex Sans',sans-serif;color:#13212B;background:#EEF1EF">
+<header style="background:#13212B;color:#fff">
+<div style="max-width:1360px;margin:0 auto;padding:8px 24px;min-height:60px;box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px">
+<div style="display:flex;align-items:center;gap:10px">
+<svg width="26" height="26" viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="#7FC1E8" stroke-width="2.4" stroke-linecap="round"><path d="M3 10c3-3 5-3 8 0s5 3 8 0 5-3 6-1"></path><path d="M3 17c3-3 5-3 8 0s5 3 8 0 5-3 6-1"></path></svg>
+<span style="font-weight:700;font-size:17px">signaler-dpf</span>
+</div>
+<nav aria-label="Navigation principale" style="display:flex;flex-wrap:wrap;gap:4px">
+<a href="TableauDeBord.dc.html" style="color:#D5DEE3;text-decoration:none;padding:10px 12px">Tableau de bord</a>
+<a href="TableauDeBord.dc.html" aria-current="page" style="color:#fff;text-decoration:none;font-weight:600;padding:10px 12px;border-radius:6px;background:#26394A">Dossiers</a>
+<a href="#" style="color:#D5DEE3;text-decoration:none;padding:10px 12px">Carte</a>
+</nav>
+<div style="margin-left:auto;display:flex;align-items:center;gap:10px;font-size:14px">
+<div style="display:flex;flex-direction:column;align-items:flex-end"><span style="font-weight:600">Claire Dupont</span><span style="color:#C3CED4;font-size:12px">Gestionnaire du domaine</span></div>
+<div aria-hidden="true" style="width:36px;height:36px;border-radius:50%;background:#7FC1E8;color:#13212B;display:flex;align-items:center;justify-content:center;font-weight:700">CD</div>
+</div>
+</div>
+</header>
+<main style="max-width:1360px;margin:0 auto;padding:24px 24px 48px;box-sizing:border-box;display:flex;flex-direction:column;gap:22px">
+<a href="TableauDeBord.dc.html" style="font-size:14px;font-weight:500">← Tableau de bord</a>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px">
+<span class="mono" style="font-size:16px;padding:4px 10px;border-radius:6px;background:#E3E8EA">CST-2026-0102</span>
+<h1 style="margin:0;font-size:28px;font-weight:600">Abri de jardin sur le DPF</h1>
+<span style="font-size:14px;color:#3E4B53">Canal de la Somme · avertissement <span class="mono">AVT-2026-0024</span></span>
+</div>
+<ol aria-label="Phases du processus" style="list-style:none;margin:0;padding:16px 18px;background:#fff;border:1px solid #DCE2E5;border-radius:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px">
+<template data-scfor list="{{steps}}" as="s" hint-placeholder-count="6">
+<li style="display:flex;flex-direction:column;gap:6px" aria-current="{{s.aria}}">
+<div style="{{s.bar}}"></div>
+<span style="font-size:12px;color:#56636B">Phase {{s.n}} · {{s.state}}</span>
+<span style="{{s.labelStyle}}">{{s.label}}</span>
+</li>
+</template>
+</ol>
+<div style="display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start">
+<div style="flex:999 1 560px;min-width:0;display:flex;flex-direction:column;gap:22px">
+<div style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:10px;background:#E8EFF3;font-size:14px;line-height:1.5">
+<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#1A5A85" stroke-width="2" stroke-linecap="round" style="flex:0 0 auto;margin-top:1px"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v6M12 7.5v.01"></path></svg>
+<span>Établissez d’abord le COSTU dans GeDo (« occupation illégale »). Inutile de joindre ici le PDF, la preuve d’envoi ou les photos : ils sont déjà dans GeDo. <a href="#">Ouvrir GeDo ↗</a></span>
+</div>
+<section class="card" aria-labelledby="envoi" style="display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+<span class="num" style="background:#1A5A85;color:#fff">✓</span>
+<h2 id="envoi" style="margin:0;font-size:18px;font-weight:600;flex:1">Envoi du COSTU</h2>
+<span style="font-size:13px;font-weight:600;padding:4px 10px;border-radius:999px;background:#DCE7F0;color:#0F3D5C">Validé le 20/10/2026 par Claire Dupont</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
+<div><label class="lbl" for="detab">Date d’établissement</label><input class="in" id="detab" type="date" value="2026-10-19" readonly></div>
+<div><label class="lbl" for="ncostu">N° du COSTU</label><input class="in mono" id="ncostu" value="[N° GEDO]" readonly></div>
+<div><label class="lbl" for="denv">Date d’envoi en RAR</label><input class="in" id="denv" type="date" value="2026-10-20" readonly></div>
+</div>
+<span class="k">Courriel automatique envoyé au constatant le 20/10/2026.</span>
+</section>
+<section class="card" aria-labelledby="notif" style="display:flex;flex-direction:column;gap:16px;border:2px solid #1A5A85">
+<div style="display:flex;align-items:center;gap:12px">
+<span class="num" style="background:#E08A2E;color:#13212B">2</span>
+<h2 id="notif" style="margin:0;font-size:18px;font-weight:600">Fin de la notification</h2>
+</div>
+<p style="margin:0;font-size:14px;line-height:1.5;color:#3E4B53">À renseigner au retour de La Poste : pli distribué, ou avisé et non retiré sous 15 jours.</p>
+<div style="max-width:320px"><label class="lbl" for="drec">Date de réception ou de non-délivrance du RAR</label><input class="in" id="drec" type="date"></div>
+<div style="display:flex;flex-direction:column;gap:6px;padding:14px 16px;border-radius:10px;background:#E8EFF3;font-size:14px;line-height:1.5">
+<span style="font-weight:600">À la validation</span>
+<span>Courriel à la BALU du pôle domaine à <strong>J+30</strong> de cette date : un PV de grande voirie peut être établi si l’infraction demeure.</span>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:12px;padding-top:6px;border-top:1px solid #E3E8EA">
+<button type="button" class="btn btn-p">Valider la fin de la notification du COSTU</button>
+</div>
+</section>
+</div>
+<aside style="flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:22px">
+<section class="card" aria-labelledby="journal" style="display:flex;flex-direction:column;gap:12px">
+<h2 id="journal" style="margin:0;font-size:16px;font-weight:600">Journal du dossier</h2>
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:14px">
+<li style="display:flex;flex-direction:column;gap:2px"><span class="k">20/10/2026 · courriel automatique</span><span>Constatant informé de l’envoi du COSTU</span></li>
+<li style="display:flex;flex-direction:column;gap:2px"><span class="k">20/10/2026</span><span>Envoi du COSTU validé par Claire Dupont</span></li>
+<li style="display:flex;flex-direction:column;gap:2px"><span class="k">16/10/2026 · alerte J+14</span><span>BALU informée : avertissement affiché depuis 14 jours</span></li>
+<li style="display:flex;flex-direction:column;gap:2px"><span class="k">02/10/2026</span><span>Affichage de l’avertissement AVT-2026-0024 validé</span></li>
+</ul>
+<a href="#" style="font-size:14px;font-weight:600">Voir tout l’historique</a>
+</section>
+<section class="card" aria-labelledby="regul" style="display:flex;flex-direction:column;gap:14px;background:#F5FAF6;border-color:#CFE0D3">
+<h2 id="regul" style="margin:0;font-size:16px;font-weight:600">Régularisation</h2>
+<div><label class="lbl" for="rdate">Date de régularisation</label><input class="in" id="rdate" type="date"></div>
+<div><label class="lbl" for="rcom">Commentaire</label><textarea class="in" id="rcom" rows="3" style="resize:vertical"></textarea></div>
+<button type="button" class="btn btn-s" style="border-color:#2C6A3F;color:#1F4D2D">Valider la régularisation</button>
+</section>
+</aside>
+</div>
+</main>
+</div>
+</template>
+<div id="dc-root"></div>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+renderVals() {
+const cur = 4;
+const labels = ['Constat','Caractérisation','Avertissement','COSTU','PV de grande voirie','Tribunal et suites'];
+const steps = labels.map((label, i) => { const n = i + 1; const done = n < cur, now = n === cur;
+return { n, label, state: done ? 'faite' : now ? 'en cours' : 'à venir', aria: now ? 'step' : 'false',
+bar: 'height:6px;border-radius:3px;background:' + (done ? '#1A5A85' : now ? '#E08A2E' : '#C9D1D5'),
+labelStyle: 'font-size:14px;font-weight:' + (now ? '700' : '500') + ';color:' + (n > cur ? '#56636B' : '#13212B') }; });
+return { steps };
+}
+}
+</script>
+</body>
+</html>

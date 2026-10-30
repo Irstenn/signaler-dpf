@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signaler-DPF — Nouveau constat</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#EEF1EF}
+a{color:#1A5A85}a:hover{color:#0F3D5C}
+.lbl{display:block;font-size:15px;font-weight:600;margin-bottom:4px;color:#13212B}
+.hint{font-size:13px;line-height:1.45;color:#56636B;margin:0 0 8px}
+.in{box-sizing:border-box;width:100%;min-height:48px;padding:10px 12px;border:1px solid #7D8A91;border-radius:8px;font:inherit;font-size:16px;color:#13212B;background:#fff}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 18px;border-radius:10px;font:inherit;font-weight:600;font-size:16px;text-decoration:none;border:1px solid transparent;cursor:pointer}
+.btn-p{background:#1A5A85;color:#fff}.btn-p:hover{background:#0F3D5C;color:#fff}
+.btn-s{background:#fff;color:#1A5A85;border-color:#1A5A85}
+.drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:120px;border:1.5px dashed #7D8A91;border-radius:10px;background:#fff;font-size:14px;font-weight:600;color:#1A5A85;cursor:pointer}
+</style>
+
+<style>
+body{background:#DCE2E5}
+#dc-root{display:flex;justify-content:center;min-height:100vh}
+#dc-root>div{height:auto!important;min-height:100vh;box-shadow:0 0 0 1px #C9D1D5,0 8px 40px rgba(19,33,43,.12)}
+@media (max-width:440px){#dc-root>div{width:100%!important;box-shadow:none}}
+</style>
+<script src="./dc-lite.js"></script>
+</head>
+<body>
+<template id="dc-template">
+
+<div style="width:390px;min-height:1560px;box-sizing:border-box;display:flex;flex-direction:column;font-family:'IBM Plex Sans',sans-serif;color:#13212B;background:#F6F8F7">
+<header style="background:#13212B;color:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between">
+<div style="display:flex;align-items:center;gap:8px">
+<svg width="24" height="24" viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="#7FC1E8" stroke-width="2.4" stroke-linecap="round"><path d="M3 10c3-3 5-3 8 0s5 3 8 0 5-3 6-1"></path><path d="M3 17c3-3 5-3 8 0s5 3 8 0 5-3 6-1"></path></svg>
+<span style="font-weight:700;font-size:16px">signaler-dpf</span>
+</div>
+<a href="Suivi.dc.html" style="color:#fff;font-size:14px;font-weight:500;min-height:44px;display:inline-flex;align-items:center">Mes constats</a>
+</header>
+<div style="background:#fff;border-bottom:1px solid #DCE2E5;padding:16px 20px;display:flex;flex-direction:column;gap:10px">
+<div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px" aria-hidden="true">
+<div style="height:5px;border-radius:3px;background:#E08A2E"></div>
+<div style="height:5px;border-radius:3px;background:#C9D1D5"></div>
+<div style="height:5px;border-radius:3px;background:#C9D1D5"></div>
+<div style="height:5px;border-radius:3px;background:#C9D1D5"></div>
+<div style="height:5px;border-radius:3px;background:#C9D1D5"></div>
+<div style="height:5px;border-radius:3px;background:#C9D1D5"></div>
+</div>
+<span style="font-size:13px;color:#56636B">Phase 1 sur 6 · Constat</span>
+<h1 style="margin:0;font-size:24px;font-weight:600">Signaler une anomalie</h1>
+</div>
+<form style="flex:1;padding:20px;display:flex;flex-direction:column;gap:26px">
+<section aria-label="Informations automatiques" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:14px;border-radius:10px;background:#E8EFF3;font-size:13px">
+<div style="display:flex;flex-direction:column;gap:2px"><span style="color:#4A5961">Date du constat</span><span style="font-weight:600;font-size:15px">30/10/2026</span></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="color:#4A5961">Constatant</span><span style="font-weight:600;font-size:15px">Camille Martin</span></div>
+<div style="grid-column:span 2;color:#4A5961">Renseignés automatiquement. Le numéro de constat est attribué à l’envoi.</div>
+</section>
+<div>
+<label class="lbl" for="voie">Voie d’eau concernée</label>
+<select class="in" id="voie">
+<option>Choisir une voie d’eau…</option>
+<option>Rivière Oise canalisée</option>
+<option>Canal latéral à l’Oise</option>
+<option>Vieille Oise</option>
+<option>Rivière Aisne canalisée</option>
+<option selected>Canal du Nord</option>
+<option>Canal de la Somme</option>
+</select>
+</div>
+<div>
+<span class="lbl">Localisation précise</span>
+<p class="hint">Capture d’écran Google Maps zoomée sur le lieu, avec un repère visible (écluse, pont, PK).</p>
+<div style="display:flex;flex-direction:column;gap:10px">
+<label class="drop">
+<svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12z"></path><circle cx="12" cy="9" r="2.5"></circle></svg>
+Ajouter la capture de carte
+<input type="file" accept="image/*" style="position:absolute;width:1px;height:1px;opacity:0">
+</label>
+<button type="button" class="btn btn-s">
+<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></svg>
+Joindre aussi ma position GPS</button>
+<span style="font-size:13px;color:#2C6A3F;font-weight:500">Position enregistrée : 49.5841, 2.9612 (± 8 m)</span>
+</div>
+</div>
+<div>
+<span class="lbl">Photo(s) du constat</span>
+<p class="hint">Prenez la photo depuis l’application ou choisissez-la dans votre galerie.</p>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+<div style="aspect-ratio:1;border-radius:8px;background:#C9D6DD;display:flex;align-items:flex-end;padding:6px;box-sizing:border-box;font-size:11px;color:#13212B">photo_1.jpg</div>
+<div style="aspect-ratio:1;border-radius:8px;background:#B7C7D0;display:flex;align-items:flex-end;padding:6px;box-sizing:border-box;font-size:11px;color:#13212B">photo_2.jpg</div>
+<label class="drop" style="min-height:0;aspect-ratio:1;font-size:13px">
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
+Ajouter
+<input type="file" accept="image/*" capture="environment" multiple style="position:absolute;width:1px;height:1px;opacity:0">
+</label>
+</div>
+</div>
+<div>
+<label class="lbl" for="com">Commentaire explicatif</label>
+<p class="hint">Ce que vous avez vu, depuis quand si vous le savez, et tout détail utile au pôle domaine.</p>
+<textarea class="in" id="com" rows="5" style="resize:vertical">Ponton en bois installé en rive droite, environ 50 m en aval de l’écluse. Une barque y est amarrée. Pas de panneau d’autorisation visible.</textarea>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;margin-top:auto;padding-top:8px">
+<a class="btn btn-p" href="Suivi.dc.html">
+<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-8-6 16-2-6z"></path></svg>
+Envoyer au pôle domaine</a>
+<p style="margin:0;font-size:13px;color:#56636B;text-align:center">Vous recevrez un accusé de réception par courriel.</p>
+</div>
+</form>
+</div>
+</template>
+<div id="dc-root"></div>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1560}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

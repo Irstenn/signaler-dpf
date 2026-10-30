@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signaler-DPF — Phase 2, caractérisation</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#EEF1EF}
+a{color:#1A5A85}a:hover{color:#0F3D5C}
+.lbl{display:block;font-size:14px;font-weight:600;margin-bottom:6px;color:#13212B}
+.hint{font-size:13px;color:#56636B;margin:6px 0 0}
+.in{box-sizing:border-box;width:100%;min-height:44px;padding:10px 12px;border:1px solid #7D8A91;border-radius:8px;font:inherit;font-size:15px;color:#13212B;background:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 20px;border-radius:8px;font:inherit;font-weight:600;font-size:15px;text-decoration:none;border:1px solid transparent;cursor:pointer}
+.btn-p{background:#1A5A85;color:#fff}.btn-p:hover{background:#0F3D5C;color:#fff}
+.btn-s{background:#fff;color:#1A5A85;border-color:#1A5A85}
+.card{background:#fff;border:1px solid #DCE2E5;border-radius:12px;padding:22px}
+.mono{font-family:'IBM Plex Mono',monospace}
+.k{font-size:13px;color:#56636B}
+</style>
+<script src="./dc-lite.js"></script>
+</head>
+<body>
+<template id="dc-template">
+
+<div style="min-height:100vh;font-family:'IBM Plex Sans',sans-serif;color:#13212B;background:#EEF1EF">
+<header style="background:#13212B;color:#fff">
+<div style="max-width:1360px;margin:0 auto;padding:8px 24px;min-height:60px;box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px">
+<div style="display:flex;align-items:center;gap:10px">
+<svg width="26" height="26" viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="#7FC1E8" stroke-width="2.4" stroke-linecap="round"><path d="M3 10c3-3 5-3 8 0s5 3 8 0 5-3 6-1"></path><path d="M3 17c3-3 5-3 8 0s5 3 8 0 5-3 6-1"></path></svg>
+<span style="font-weight:700;font-size:17px">signaler-dpf</span>
+</div>
+<nav aria-label="Navigation principale" style="display:flex;flex-wrap:wrap;gap:4px">
+<a href="TableauDeBord.dc.html" style="color:#D5DEE3;text-decoration:none;padding:10px 12px">Tableau de bord</a>
+<a href="TableauDeBord.dc.html" aria-current="page" style="color:#fff;text-decoration:none;font-weight:600;padding:10px 12px;border-radius:6px;background:#26394A">Dossiers</a>
+<a href="#" style="color:#D5DEE3;text-decoration:none;padding:10px 12px">Carte</a>
+</nav>
+<div style="margin-left:auto;display:flex;align-items:center;gap:10px;font-size:14px">
+<div style="display:flex;flex-direction:column;align-items:flex-end"><span style="font-weight:600">Claire Dupont</span><span style="color:#C3CED4;font-size:12px">Gestionnaire du domaine</span></div>
+<div aria-hidden="true" style="width:36px;height:36px;border-radius:50%;background:#7FC1E8;color:#13212B;display:flex;align-items:center;justify-content:center;font-weight:700">CD</div>
+</div>
+</div>
+</header>
+<main style="max-width:1360px;margin:0 auto;padding:24px 24px 48px;box-sizing:border-box;display:flex;flex-direction:column;gap:22px">
+<a href="TableauDeBord.dc.html" style="font-size:14px;font-weight:500">← Tableau de bord</a>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px">
+<span class="mono" style="font-size:16px;padding:4px 10px;border-radius:6px;background:#E3E8EA">CST-2026-0142</span>
+<h1 style="margin:0;font-size:28px;font-weight:600">Nouveau constat à caractériser</h1>
+<span style="font-size:14px;color:#3E4B53">Canal du Nord · constaté le 30/10/2026 par Camille Martin</span>
+</div>
+<ol aria-label="Phases du processus" style="list-style:none;margin:0;padding:16px 18px;background:#fff;border:1px solid #DCE2E5;border-radius:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px">
+<template data-scfor list="{{steps}}" as="s" hint-placeholder-count="6">
+<li style="display:flex;flex-direction:column;gap:6px" aria-current="{{s.aria}}">
+<div style="{{s.bar}}"></div>
+<span style="font-size:12px;color:#56636B">Phase {{s.n}} · {{s.state}}</span>
+<span style="{{s.labelStyle}}">{{s.label}}</span>
+</li>
+</template>
+</ol>
+<div style="display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start">
+<div style="flex:999 1 560px;min-width:0;display:flex;flex-direction:column;gap:22px">
+<section class="card" aria-labelledby="recu" style="display:flex;flex-direction:column;gap:16px">
+<h2 id="recu" style="margin:0;font-size:18px;font-weight:600">Constat reçu</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px">
+<div style="aspect-ratio:4/3;border-radius:8px;background:#C9D6DD;display:flex;align-items:flex-end;padding:8px;box-sizing:border-box;font-size:12px">photo_1.jpg</div>
+<div style="aspect-ratio:4/3;border-radius:8px;background:#B7C7D0;display:flex;align-items:flex-end;padding:8px;box-sizing:border-box;font-size:12px">photo_2.jpg</div>
+<div style="aspect-ratio:4/3;border-radius:8px;background:#D8E3D5;display:flex;flex-direction:column;justify-content:space-between;padding:8px;box-sizing:border-box;font-size:12px"><span style="font-weight:600">Capture Google Maps</span><span>carte_localisation.png</span></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px">
+<div style="display:flex;flex-direction:column;gap:2px"><span class="k">Voie d’eau</span><span>Canal du Nord</span></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span class="k">Position GPS</span><span><span class="mono" style="font-size:14px">49.5841, 2.9612</span> · <a href="#">ouvrir la carte</a></span></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span class="k">Constatant</span><span>Camille Martin · camille.martin@vnf.fr</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px"><span class="k">Commentaire du constatant</span><p style="margin:0;line-height:1.55">Ponton en bois installé en rive droite, environ 50 m en aval de l’écluse. Une barque y est amarrée. Pas de panneau d’autorisation visible.</p></div>
+</section>
+<section class="card" aria-labelledby="carac" style="display:flex;flex-direction:column;gap:18px;border:2px solid #1A5A85">
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px">
+<h2 id="carac" style="margin:0;font-size:18px;font-weight:600">Caractérisation</h2>
+<div style="display:flex;gap:16px;font-size:14px"><a href="#">Ouvrir GeDo ↗</a><a href="#">Ouvrir Observado ↗</a></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+<div>
+<label class="lbl" for="type">Type de constat</label>
+<select class="in" id="type"><option>Choisir…</option><option>Situation normale</option><option selected>Occupation illégale</option><option>Dégradation</option><option>Autre</option></select>
+</div>
+<div>
+<label class="lbl" for="titre">Intitulé du constat</label>
+<input class="in" id="titre" value="Ponton privé sans titre, rive droite">
+</div>
+</div>
+<div>
+<label class="lbl" for="plan">Plan d’action</label>
+<textarea class="in" id="plan" rows="5" style="resize:vertical">Vérifier l’absence de titre dans GeDo. Identifier l’occupant (riverain parcelle B-214). Afficher un avertissement sur le ponton sous 8 jours.</textarea>
+<p class="hint">Suite à donner : avertissement, COSTU, simple surveillance, ou classement si la situation est normale.</p>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding-top:6px;border-top:1px solid #E3E8EA">
+<button type="button" class="btn btn-p">Valider la caractérisation</button>
+<span style="font-size:13px;color:#56636B">Enregistre votre nom et la date du jour, puis informe le constatant par courriel.</span>
+</div>
+</section>
+</div>
+<aside style="flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:22px">
+<section class="card" aria-labelledby="journal" style="display:flex;flex-direction:column;gap:12px">
+<h2 id="journal" style="margin:0;font-size:16px;font-weight:600">Journal du dossier</h2>
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:14px">
+<li style="display:flex;flex-direction:column;gap:2px"><span class="k">30/10/2026 · 14:12</span><span>Constat déposé par Camille Martin</span></li>
+<li style="display:flex;flex-direction:column;gap:2px"><span class="k">30/10/2026 · 14:12 · courriel automatique</span><span>Accusé de réception envoyé au constatant</span></li>
+</ul>
+</section>
+<section class="card" aria-labelledby="regul" style="display:flex;flex-direction:column;gap:14px;background:#F5FAF6;border-color:#CFE0D3">
+<h2 id="regul" style="margin:0;font-size:16px;font-weight:600">Régularisation</h2>
+<p style="margin:0;font-size:13px;color:#3E4B53;line-height:1.5">Possible à toutes les phases. Clôt le dossier et informe le constatant.</p>
+<div><label class="lbl" for="rdate">Date de régularisation</label><input class="in" id="rdate" type="date"></div>
+<div><label class="lbl" for="rcom">Commentaire</label><textarea class="in" id="rcom" rows="3" style="resize:vertical"></textarea></div>
+<button type="button" class="btn btn-s" style="border-color:#2C6A3F;color:#1F4D2D">Valider la régularisation</button>
+</section>
+</aside>
+</div>
+</main>
+</div>
+</template>
+<div id="dc-root"></div>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+renderVals() {
+const cur = 2;
+const labels = ['Constat','Caractérisation','Avertissement','COSTU','PV de grande voirie','Tribunal et suites'];
+const steps = labels.map((label, i) => { const n = i + 1; const done = n < cur, now = n === cur;
+return { n, label, state: done ? 'faite' : now ? 'en cours' : 'à venir', aria: now ? 'step' : 'false',
+bar: 'height:6px;border-radius:3px;background:' + (done ? '#1A5A85' : now ? '#E08A2E' : '#C9D1D5'),
+labelStyle: 'font-size:14px;font-weight:' + (now ? '700' : '500') + ';color:' + (n > cur ? '#56636B' : '#13212B') }; });
+return { steps };
+}
+}
+</script>
+</body>
+</html>

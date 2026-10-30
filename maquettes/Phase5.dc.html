@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signaler-DPF — Phase 5, procès-verbal de grande voirie</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#EEF1EF}
+a{color:#1A5A85}a:hover{color:#0F3D5C}
+.lbl{display:block;font-size:14px;font-weight:600;margin-bottom:6px;color:#13212B}
+.in{box-sizing:border-box;width:100%;min-height:44px;padding:10px 12px;border:1px solid #7D8A91;border-radius:8px;font:inherit;font-size:15px;color:#13212B;background:#fff}
+.in[readonly]{background:#F1F4F5;border-color:#C9D1D5}
+.in:disabled{background:#F1F4F5;border-color:#D5DBDE;color:#56636B}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 20px;border-radius:8px;font:inherit;font-weight:600;font-size:15px;text-decoration:none;border:1px solid transparent;cursor:pointer}
+.btn-p{background:#1A5A85;color:#fff}.btn-p:hover{background:#0F3D5C;color:#fff}
+.btn-p:disabled{background:#C9D1D5;color:#3E4B53;cursor:not-allowed}
+.btn-s{background:#fff;color:#1A5A85;border-color:#1A5A85}
+.card{background:#fff;border:1px solid #DCE2E5;border-radius:12px;padding:22px}
+.mono{font-family:'IBM Plex Mono',monospace}
+.k{font-size:13px;color:#56636B}
+.num{flex:0 0 auto;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.file{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid #C9D1D5;border-radius:8px;background:#F8FAFA;font-size:14px}
+.up{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 12px;border:1.5px dashed #9AA6AD;border-radius:8px;font-size:14px;font-weight:600;color:#56636B;background:#fff}
+</style>
+<script src="./dc-lite.js"></script>
+</head>
+<body>
+<template id="dc-template">
+
+<div style="min-height:100vh;font-family:'IBM Plex Sans',sans-serif;color:#13212B;background:#EEF1EF">
+<header style="background:#13212B;color:#fff">
+<div style="max-width:1360px;margin:0 auto;padding:8px 24px;min-height:60px;box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px">
+<div style="display:flex;align-items:center;gap:10px">
+<svg width="26" height="26" viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="#7FC1E8" stroke-width="2.4" stroke-linecap="round"><path d="M3 10c3-3 5-3 8 0s5 3 8 0 5-3 6-1"></path><path d="M3 17c3-3 5-3 8 0s5 3 8 0 5-3 6-1"></path></svg>
+<span style="font-weight:700;font-size:17px">signaler-dpf</span>
+</div>
+<nav aria-label="Navigation principale" style="display:flex;flex-wrap:wrap;gap:4px">
+<a href="TableauDeBord.dc.html" style="color:#D5DEE3;text-decoration:none;padding:10px 12px">Tableau de bord</a>
+<a href="TableauDeBord.dc.html" aria-current="page" style="color:#fff;text-decoration:none;font-weight:600;padding:10px 12px;border-radius:6px;background:#26394A">Dossiers</a>
+<a href="#" style="color:#D5DEE3;text-decoration:none;padding:10px 12px">Carte</a>
+</nav>
+<div style="margin-left:auto;display:flex;align-items:center;gap:10px;font-size:14px">
+<div style="display:flex;flex-direction:column;align-items:flex-end"><span style="font-weight:600">Claire Dupont</span><span style="color:#C3CED4;font-size:12px">Gestionnaire du domaine</span></div>
+<div aria-hidden="true" style="width:36px;height:36px;border-radius:50%;background:#7FC1E8;color:#13212B;display:flex;align-items:center;justify-content:center;font-weight:700">CD</div>
+</div>
+</div>
+</header>
+<main style="max-width:1360px;margin:0 auto;padding:24px 24px 48px;box-sizing:border-box;display:flex;flex-direction:column;gap:22px">
+<a href="TableauDeBord.dc.html" style="font-size:14px;font-weight:500">← Tableau de bord</a>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px">
+<span class="mono" style="font-size:16px;padding:4px 10px;border-radius:6px;background:#E3E8EA">CST-2026-0071</span>
+<h1 style="margin:0;font-size:28px;font-weight:600">Stockage de matériaux sur le quai</h1>
+<span style="font-size:14px;color:#3E4B53">Canal du Nord · PV <span class="mono">PV-2026-0012</span></span>
+</div>
+<ol aria-label="Phases du processus" style="list-style:none;margin:0;padding:16px 18px;background:#fff;border:1px solid #DCE2E5;border-radius:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px">
+<template data-scfor list="{{steps}}" as="s" hint-placeholder-count="6">
+<li style="display:flex;flex-direction:column;gap:6px" aria-current="{{s.aria}}">
+<div style="{{s.bar}}"></div>
+<span style="font-size:12px;color:#56636B">Phase {{s.n}} · {{s.state}}</span>
+<span style="{{s.labelStyle}}">{{s.label}}</span>
+</li>
+</template>
+</ol>
+<div style="display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start">
+<div style="flex:999 1 560px;min-width:0;display:flex;flex-direction:column;gap:18px">
+
+<section class="card" aria-labelledby="a" style="display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+<span class="num" style="background:#1A5A85;color:#fff">✓</span>
+<h2 id="a" style="margin:0;font-size:18px;font-weight:600;flex:1">Visite et projet de PV</h2>
+<span style="font-size:13px;font-weight:600;padding:4px 10px;border-radius:999px;background:#DCE7F0;color:#0F3D5C">BAJC sollicité le 08/10/2026</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
+<div><label class="lbl" for="dvis">Date de visite</label><input class="in" id="dvis" type="date" value="2026-10-06" readonly></div>
+<div><span class="lbl">Photos de la visite</span><div class="file">3 photos · visite_06-10.zip</div></div>
+<div><span class="lbl">Projet de PV (Word)</span><div class="file">projet_PV_CST-2026-0071.docx</div></div>
+</div>
+<span class="k">Courriel envoyé à la BALU du BAJC (copie : BALU du pôle domaine) avec le projet de PV et les photos.</span>
+</section>
+
+<section class="card" aria-labelledby="b" style="display:flex;flex-direction:column;gap:16px;border:2px solid #1A5A85">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+<span class="num" style="background:#E08A2E;color:#13212B">2</span>
+<h2 id="b" style="margin:0;font-size:18px;font-weight:600;flex:1">Retour du BAJC</h2>
+<span style="font-size:13px;font-weight:700;padding:4px 10px;border-radius:6px;background:#8A3B05;color:#fff">Sans retour depuis 22 jours</span>
+</div>
+<ol aria-label="Relances automatiques" style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+<li style="padding:12px;border-radius:10px;background:#FFF6EC;border:1px solid #F0C9A3;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Relance J+10</span><span class="k">envoyée le 18/10</span></li>
+<li style="padding:12px;border-radius:10px;background:#FFF6EC;border:1px solid #F0C9A3;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Relance J+20</span><span class="k">envoyée le 28/10</span></li>
+<li style="padding:12px;border-radius:10px;background:#fff;border:1px dashed #9AA6AD;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Relance J+30</span><span class="k">prévue le 07/11</span></li>
+</ol>
+<div style="max-width:320px"><label class="lbl" for="dret">Date de retour du BAJC</label><input class="in" id="dret" type="date"></div>
+<span class="k">Dès que cette date est saisie, les relances s’arrêtent.</span>
+</section>
+
+<section class="card" aria-labelledby="c" style="display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px">
+<span class="num" style="background:#E3E8EA;color:#3E4B53">3</span>
+<h2 id="c" style="margin:0;font-size:18px;font-weight:600">PV signé et envoi</h2>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+<div><span class="lbl">PV signé (PDF)</span><div class="up">Déposer le fichier</div></div>
+<div><span class="lbl">Notification du PV (PDF)</span><div class="up">Déposer le fichier</div></div>
+<div><span class="lbl">Preuve d’envoi (PDF)</span><div class="up">Déposer le fichier</div></div>
+</div>
+<div style="max-width:320px"><label class="lbl" for="denv">Date d’envoi en RAR du PV</label><input class="in" id="denv" type="date" disabled></div>
+<div><button type="button" class="btn btn-p" disabled>Valider l’envoi du PV</button></div>
+</section>
+
+<section class="card" aria-labelledby="d" style="display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:12px">
+<span class="num" style="background:#E3E8EA;color:#3E4B53">4</span>
+<h2 id="d" style="margin:0;font-size:18px;font-weight:600">Fin de la notification</h2>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;align-items:start">
+<div><label class="lbl" for="dfin">Date de fin de la notification du RAR</label><input class="in" id="dfin" type="date" disabled></div>
+<fieldset style="border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px">
+<legend class="lbl" style="padding:0">Résultat</legend>
+<label style="display:flex;gap:10px;align-items:center;min-height:32px;color:#56636B"><input type="radio" name="pli" disabled style="width:18px;height:18px">Pli délivré au destinataire</label>
+<label style="display:flex;gap:10px;align-items:center;min-height:32px;color:#56636B"><input type="radio" name="pli" disabled style="width:18px;height:18px">Pli avisé non retiré</label>
+</fieldset>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px"><button type="button" class="btn btn-p" disabled>Valider la fin de notification du PV</button><span class="k">Invite ensuite le BAJC à ouvrir la phase judiciaire.</span></div>
+</section>
+</div>
+<aside style="flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:22px">
+<section class="card" aria-labelledby="journal" style="display:flex;flex-direction:column;gap:12px">
+<h2 id="journal" style="margin:0;font-size:16px;font-weight:600">Journal du dossier</h2>
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:14px">
+<li style="display:flex;flex-direction:column;gap:2px"><span class="k">28/10/2026 · courriel automatique</span><span>Relance J+20 : le BAJC n’a pas répondu</span></li>
+<li style="display:flex;flex-direction:column;gap:2px"><span class="k">18/10/2026 · courriel automatique</span><span>Relance J+10 : le BAJC n’a pas répondu</span></li>
+<li style="display:flex;flex-direction:column;gap:2px"><span class="k">08/10/2026 · courriel automatique</span><span>Projet de PV envoyé à la BALU du BAJC</span></li>
+<li style="display:flex;flex-direction:column;gap:2px"><span class="k">06/10/2026</span><span>Visite pour l’établissement du PV</span></li>
+</ul>
+<a href="#" style="font-size:14px;font-weight:600">Voir tout l’historique</a>
+</section>
+<section class="card" aria-labelledby="regul" style="display:flex;flex-direction:column;gap:14px;background:#F5FAF6;border-color:#CFE0D3">
+<h2 id="regul" style="margin:0;font-size:16px;font-weight:600">Régularisation</h2>
+<div><label class="lbl" for="rdate">Date de régularisation</label><input class="in" id="rdate" type="date"></div>
+<div><label class="lbl" for="rcom">Commentaire</label><textarea class="in" id="rcom" rows="3" style="resize:vertical"></textarea></div>
+<button type="button" class="btn btn-s" style="border-color:#2C6A3F;color:#1F4D2D">Valider la régularisation</button>
+</section>
+</aside>
+</div>
+</main>
+</div>
+</template>
+<div id="dc-root"></div>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1900}}'>
+class Component extends DCLogic {
+renderVals() {
+const cur = 5;
+const labels = ['Constat','Caractérisation','Avertissement','COSTU','PV de grande voirie','Tribunal et suites'];
+const steps = labels.map((label, i) => { const n = i + 1; const done = n < cur, now = n === cur;
+return { n, label, state: done ? 'faite' : now ? 'en cours' : 'à venir', aria: now ? 'step' : 'false',
+bar: 'height:6px;border-radius:3px;background:' + (done ? '#1A5A85' : now ? '#E08A2E' : '#C9D1D5'),
+labelStyle: 'font-size:14px;font-weight:' + (now ? '700' : '500') + ';color:' + (n > cur ? '#56636B' : '#13212B') }; });
+return { steps };
+}
+}
+</script>
+</body>
+</html>

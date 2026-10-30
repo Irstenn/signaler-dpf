@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signaler-DPF — Constat envoyé et suivi</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#EEF1EF}
+a{color:#1A5A85}a:hover{color:#0F3D5C}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 18px;border-radius:10px;font-weight:600;font-size:16px;text-decoration:none;border:1px solid transparent}
+.btn-s{background:#fff;color:#1A5A85;border-color:#1A5A85}
+.mono{font-family:'IBM Plex Mono',monospace}
+</style>
+
+<style>
+body{background:#DCE2E5}
+#dc-root{display:flex;justify-content:center;min-height:100vh}
+#dc-root>div{height:auto!important;min-height:100vh;box-shadow:0 0 0 1px #C9D1D5,0 8px 40px rgba(19,33,43,.12)}
+@media (max-width:440px){#dc-root>div{width:100%!important;box-shadow:none}}
+</style>
+<script src="./dc-lite.js"></script>
+</head>
+<body>
+<template id="dc-template">
+
+<div style="width:390px;min-height:1200px;box-sizing:border-box;display:flex;flex-direction:column;font-family:'IBM Plex Sans',sans-serif;color:#13212B;background:#F6F8F7">
+<header style="background:#13212B;color:#fff;padding:14px 20px;display:flex;align-items:center;gap:8px;min-height:44px">
+<svg width="24" height="24" viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="#7FC1E8" stroke-width="2.4" stroke-linecap="round"><path d="M3 10c3-3 5-3 8 0s5 3 8 0 5-3 6-1"></path><path d="M3 17c3-3 5-3 8 0s5 3 8 0 5-3 6-1"></path></svg>
+<span style="font-weight:700;font-size:16px">signaler-dpf</span>
+</header>
+<main style="padding:20px;display:flex;flex-direction:column;gap:28px">
+<section style="background:#fff;border:1px solid #CFE0D3;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px">
+<div style="width:48px;height:48px;border-radius:50%;background:#2C6A3F;display:flex;align-items:center;justify-content:center">
+<svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+</div>
+<h1 style="margin:0;font-size:24px;font-weight:600">Constat envoyé au pôle domaine</h1>
+<div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:14px;color:#56636B">N° de constat</span><span class="mono" style="font-size:18px">CST-2026-0142</span></div>
+<p style="margin:0;font-size:15px;line-height:1.5;color:#3E4B53">Un accusé de réception vous a été envoyé par courriel. Le pôle domaine traitera votre constat dans les meilleurs délais.</p>
+</section>
+<section style="display:flex;flex-direction:column;gap:14px">
+<h2 style="margin:0;font-size:18px;font-weight:600">Suivi de ce constat</h2>
+<ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
+<li style="display:flex;gap:12px">
+<div style="display:flex;flex-direction:column;align-items:center"><div style="width:18px;height:18px;border-radius:50%;background:#1A5A85"></div><div style="width:2px;flex:1;min-height:28px;background:#C9D1D5"></div></div>
+<div style="padding-bottom:16px;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Constat envoyé</span><span style="font-size:13px;color:#56636B">30/10/2026 · accusé de réception envoyé</span></div>
+</li>
+<li style="display:flex;gap:12px">
+<div style="display:flex;flex-direction:column;align-items:center"><div style="width:14px;height:14px;border-radius:50%;border:3px solid #E08A2E;background:#fff"></div><div style="width:2px;flex:1;min-height:28px;background:#C9D1D5"></div></div>
+<div style="padding-bottom:16px;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Caractérisation par le pôle domaine</span><span style="font-size:13px;color:#8A4A0F">En attente</span></div>
+</li>
+<li style="display:flex;gap:12px">
+<div style="display:flex;flex-direction:column;align-items:center"><div style="width:14px;height:14px;border-radius:50%;border:2px solid #9AA6AD;background:#fff"></div><div style="width:2px;flex:1;min-height:20px;background:#C9D1D5"></div></div>
+<div style="padding-bottom:12px;color:#56636B">Avertissement du contrevenant</div>
+</li>
+<li style="display:flex;gap:12px">
+<div style="display:flex;flex-direction:column;align-items:center"><div style="width:14px;height:14px;border-radius:50%;border:2px solid #9AA6AD;background:#fff"></div><div style="width:2px;flex:1;min-height:20px;background:#C9D1D5"></div></div>
+<div style="padding-bottom:12px;color:#56636B">COSTU envoyé</div>
+</li>
+<li style="display:flex;gap:12px">
+<div style="display:flex;flex-direction:column;align-items:center"><div style="width:14px;height:14px;border-radius:50%;border:2px solid #9AA6AD;background:#fff"></div></div>
+<div style="color:#56636B">Situation régularisée</div>
+</li>
+</ol>
+<p style="margin:0;font-size:13px;line-height:1.5;color:#56636B">Vous êtes informé par courriel à chaque étape clé : caractérisation, envoi d’un COSTU, régularisation.</p>
+</section>
+<section style="display:flex;flex-direction:column;gap:10px">
+<h2 style="margin:0;font-size:18px;font-weight:600">Mes constats</h2>
+<a href="#" style="text-decoration:none;color:#13212B;background:#fff;border:1px solid #DCE2E5;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;justify-content:space-between;align-items:center"><span class="mono" style="font-size:14px">CST-2026-0142</span><span style="font-size:12px;font-weight:600;padding:3px 8px;border-radius:999px;background:#FDEBD6;color:#7A3E06">Envoyé</span></div>
+<span style="font-size:14px;color:#3E4B53">Canal du Nord · 30/10/2026</span>
+</a>
+<a href="#" style="text-decoration:none;color:#13212B;background:#fff;border:1px solid #DCE2E5;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;justify-content:space-between;align-items:center"><span class="mono" style="font-size:14px">CST-2026-0118</span><span style="font-size:12px;font-weight:600;padding:3px 8px;border-radius:999px;background:#E3EEF6;color:#0F3D5C">Avertissement</span></div>
+<span style="font-size:14px;color:#3E4B53">Rivière Oise canalisée · 02/10/2026</span>
+</a>
+<a href="#" style="text-decoration:none;color:#13212B;background:#fff;border:1px solid #DCE2E5;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;justify-content:space-between;align-items:center"><span class="mono" style="font-size:14px">CST-2026-0097</span><span style="font-size:12px;font-weight:600;padding:3px 8px;border-radius:999px;background:#DDEDE1;color:#1F4D2D">Régularisé</span></div>
+<span style="font-size:14px;color:#3E4B53">Canal latéral à l’Oise · 11/09/2026</span>
+</a>
+</section>
+<a class="btn btn-s" href="Signalement.dc.html">Signaler une autre anomalie</a>
+</main>
+</div>
+</template>
+<div id="dc-root"></div>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1200}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signaler-DPF — Tableau de bord du pôle domaine</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#EEF1EF}
+a{color:#1A5A85}a:hover{color:#0F3D5C}
+.in{box-sizing:border-box;min-height:44px;padding:8px 12px;border:1px solid #7D8A91;border-radius:8px;font:inherit;font-size:15px;color:#13212B;background:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:8px;font:inherit;font-weight:600;font-size:15px;text-decoration:none;border:1px solid transparent;cursor:pointer}
+.btn-p{background:#1A5A85;color:#fff}.btn-p:hover{background:#0F3D5C;color:#fff}
+.mono{font-family:'IBM Plex Mono',monospace}
+th{text-align:left;font-size:13px;font-weight:600;color:#3E4B53;padding:10px 12px;border-bottom:1px solid #C9D1D5;white-space:nowrap}
+td{padding:12px;border-bottom:1px solid #E3E8EA;font-size:14px;vertical-align:top}
+</style>
+<script src="./dc-lite.js"></script>
+</head>
+<body>
+<template id="dc-template">
+
+<div style="min-height:100vh;font-family:'IBM Plex Sans',sans-serif;color:#13212B;background:#EEF1EF">
+<header style="background:#13212B;color:#fff">
+<div style="max-width:1360px;margin:0 auto;padding:8px 24px;min-height:60px;box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px">
+<div style="display:flex;align-items:center;gap:10px">
+<svg width="26" height="26" viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="#7FC1E8" stroke-width="2.4" stroke-linecap="round"><path d="M3 10c3-3 5-3 8 0s5 3 8 0 5-3 6-1"></path><path d="M3 17c3-3 5-3 8 0s5 3 8 0 5-3 6-1"></path></svg>
+<span style="font-weight:700;font-size:17px">signaler-dpf</span>
+</div>
+<nav aria-label="Navigation principale" style="display:flex;flex-wrap:wrap;gap:4px">
+<a href="#" aria-current="page" style="color:#fff;text-decoration:none;font-weight:600;padding:10px 12px;border-radius:6px;background:#26394A">Tableau de bord</a>
+<a href="#dossiers" style="color:#D5DEE3;text-decoration:none;padding:10px 12px">Dossiers</a>
+<a href="#" style="color:#D5DEE3;text-decoration:none;padding:10px 12px">Carte</a>
+</nav>
+<div style="margin-left:auto;display:flex;align-items:center;gap:10px;font-size:14px">
+<div style="display:flex;flex-direction:column;align-items:flex-end"><span style="font-weight:600">Claire Dupont</span><span style="color:#C3CED4;font-size:12px">Gestionnaire du domaine</span></div>
+<div aria-hidden="true" style="width:36px;height:36px;border-radius:50%;background:#7FC1E8;color:#13212B;display:flex;align-items:center;justify-content:center;font-weight:700">CD</div>
+</div>
+</div>
+</header>
+<main style="max-width:1360px;margin:0 auto;padding:28px 24px 48px;box-sizing:border-box;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px">
+<div style="display:flex;flex-direction:column;gap:4px">
+<h1 style="margin:0;font-size:30px;font-weight:600">Tableau de bord</h1>
+<span style="font-size:15px;color:#56636B">Service territorial Seine-Nord · pôle domaine · données d’exemple</span>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:10px">
+<label style="position:absolute;width:1px;height:1px;overflow:hidden" for="q">Rechercher un dossier</label>
+<input class="in" id="q" type="search" placeholder="N°, intitulé, voie d’eau…" style="width:280px;max-width:100%">
+<a class="btn btn-p" href="#">Nouveau constat</a>
+</div>
+</div>
+
+<section aria-labelledby="flux" style="display:flex;flex-direction:column;gap:12px">
+<h2 id="flux" style="margin:0;font-size:18px;font-weight:600">Flux de travail par phase</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
+<template data-scfor list="{{phaseCards}}" as="c" hint-placeholder-count="6">
+<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="{{c.cardStyle}}">
+<span style="font-size:13px;color:#56636B">Phase {{c.n}}</span>
+<span style="font-size:15px;font-weight:600;line-height:1.3;min-height:40px">{{c.label}}</span>
+<span style="display:flex;align-items:baseline;gap:8px"><span style="font-size:34px;font-weight:600;line-height:1">{{c.count}}</span><span style="font-size:13px;color:#56636B">dossiers</span></span>
+<template data-scif value="{{c.hasAlert}}" hint-placeholder-val="{{false}}"><span style="font-size:13px;font-weight:600;color:#8A3B05">{{c.alertText}}</span></template>
+</button>
+</template>
+</div>
+</section>
+
+<div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+<section aria-labelledby="alertes" style="flex:999 1 560px;min-width:0;background:#fff;border-radius:12px;border:1px solid #DCE2E5;padding:20px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+<h2 id="alertes" style="margin:0;font-size:18px;font-weight:600">Échéances et relances</h2>
+<span style="font-size:13px;color:#56636B">Mêmes alertes que les courriels envoyés à la BALU</span>
+</div>
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px">
+<template data-scfor list="{{alerts}}" as="a" hint-placeholder-count="5">
+<li style="{{a.rowStyle}}">
+<span style="{{a.tagStyle}}">{{a.tag}}</span>
+<div style="flex:1 1 260px;min-width:0;display:flex;flex-direction:column;gap:2px">
+<span style="font-weight:600;font-size:15px">{{a.title}}</span>
+<span style="font-size:14px;color:#3E4B53">{{a.detail}}</span>
+</div>
+<a href="{{a.href}}" style="font-weight:600;font-size:14px;white-space:nowrap;min-height:44px;display:inline-flex;align-items:center">{{a.action}}</a>
+</li>
+</template>
+</ul>
+</section>
+<aside style="flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:20px">
+<section aria-labelledby="indic" style="background:#fff;border-radius:12px;border:1px solid #DCE2E5;padding:20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px">
+<h2 id="indic" style="grid-column:span 2;margin:0;font-size:18px;font-weight:600">En un coup d’œil</h2>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:30px;font-weight:600">{{openCount}}</span><span style="font-size:13px;color:#56636B">dossiers ouverts</span></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:30px;font-weight:600;color:#8A3B05">{{alertCount}}</span><span style="font-size:13px;color:#56636B">échéances dépassées</span></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:30px;font-weight:600">2</span><span style="font-size:13px;color:#56636B">constats reçus cette semaine</span></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:30px;font-weight:600;color:#1F4D2D">3</span><span style="font-size:13px;color:#56636B">régularisés en 2026</span></div>
+</section>
+<section aria-labelledby="voies" style="background:#fff;border-radius:12px;border:1px solid #DCE2E5;padding:20px;display:flex;flex-direction:column;gap:12px">
+<h2 id="voies" style="margin:0;font-size:18px;font-weight:600">Dossiers ouverts par voie d’eau</h2>
+<template data-scfor list="{{byWater}}" as="w" hint-placeholder-count="6">
+<div style="display:flex;flex-direction:column;gap:4px">
+<div style="display:flex;justify-content:space-between;font-size:14px"><span>{{w.name}}</span><span style="font-weight:600">{{w.count}}</span></div>
+<div style="height:8px;border-radius:4px;background:#E3E8EA"><div style="{{w.barStyle}}"></div></div>
+</div>
+</template>
+</section>
+</aside>
+</div>
+
+<section id="dossiers" aria-labelledby="dos" style="background:#fff;border-radius:12px;border:1px solid #DCE2E5;padding:20px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px">
+<h2 id="dos" style="margin:0;font-size:18px;font-weight:600">Dossiers · {{filterLabel}}</h2>
+<div role="group" aria-label="Filtrer par phase" style="display:flex;flex-wrap:wrap;gap:6px">
+<template data-scfor list="{{tabs}}" as="t" hint-placeholder-count="7">
+<button type="button" onClick="{{t.pick}}" aria-pressed="{{t.pressed}}" style="{{t.style}}">{{t.label}}</button>
+</template>
+</div>
+</div>
+<div style="overflow-x:auto">
+<table style="width:100%;min-width:980px;border-collapse:collapse">
+<thead><tr><th scope="col">N°</th><th scope="col">Intitulé</th><th scope="col">Voie d’eau</th><th scope="col">Phase</th><th scope="col">Dernière action</th><th scope="col">Prochaine échéance</th><th scope="col">Constatant</th></tr></thead>
+<tbody>
+<template data-scfor list="{{rows}}" as="r" hint-placeholder-count="8">
+<tr>
+<td><a class="mono" href="{{r.href}}" style="font-size:14px">{{r.id}}</a></td>
+<td style="font-weight:500">{{r.title}}</td>
+<td style="color:#3E4B53">{{r.water}}</td>
+<td><span style="{{r.badgeStyle}}">{{r.phaseLabel}}</span></td>
+<td style="color:#3E4B53">{{r.last}}</td>
+<td>
+<template data-scif value="{{r.late}}" hint-placeholder-val="{{false}}"><span style="font-weight:600;color:#8A3B05">{{r.next}}</span></template>
+<template data-scif value="{{r.onTime}}" hint-placeholder-val="{{true}}"><span style="color:#3E4B53">{{r.next}}</span></template>
+</td>
+<td style="color:#3E4B53">{{r.who}}</td>
+</tr>
+</template>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+</div>
+</template>
+<div id="dc-root"></div>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1760}}'>
+class Component extends DCLogic {
+constructor(props) { super(props); this.state = { phase: 0 }; }
+renderVals() {
+const phase = this.state.phase;
+const names = ['Constats à caractériser','En caractérisation','Avertissement affiché','COSTU en notification','PV de grande voirie','Tribunal et suites'];
+const short = ['1 · Constat','2 · Caractérisation','3 · Avertissement','4 · COSTU','5 · PV','6 · Tribunal'];
+const badgeBg = ['#FDEBD6','#F3E8F7','#E3EEF6','#DCE7F0','#D3E0EA','#E2E6E9'];
+const badgeFg = ['#7A3E06','#5B2A70','#0F3D5C','#0F3D5C','#0F3D5C','#26343D'];
+const all = [
+{id:'CST-2026-0142',title:'Nouveau constat — à caractériser',water:'Canal du Nord',p:1,last:'Reçu le 30/10/2026',next:'—',late:false,who:'C. Martin',href:'Phase2.dc.html'},
+{id:'CST-2026-0140',title:'Nouveau constat — à caractériser',water:'Vieille Oise',p:1,last:'Reçu le 28/10/2026',next:'—',late:false,who:'J. Leroy',href:'Phase2.dc.html'},
+{id:'CST-2026-0131',title:'Remblai en pied de berge',water:'Rivière Aisne canalisée',p:2,last:'Ouvert le 24/10/2026',next:'—',late:false,who:'P. Bernard',href:'Phase2.dc.html'},
+{id:'CST-2026-0118',title:'Ponton privé sans titre, rive droite',water:'Rivière Oise canalisée',p:3,last:'Avertissement affiché le 14/10/2026',next:'J+14 dépassé',late:true,who:'C. Martin',href:'Phase3.dc.html'},
+{id:'CST-2026-0125',title:'Clôture sur le chemin de halage',water:'Canal latéral à l’Oise',p:3,last:'Avertissement affiché le 21/10/2026',next:'J+14 le 04/11/2026',late:false,who:'S. Petit',href:'Phase3.dc.html'},
+{id:'CST-2026-0088',title:'Bateau-logement sans autorisation',water:'Canal latéral à l’Oise',p:4,last:'RAR reçu le 29/09/2026',next:'J+30 dépassé',late:true,who:'A. Moreau',href:'Phase4.dc.html'},
+{id:'CST-2026-0102',title:'Abri de jardin sur le DPF',water:'Canal de la Somme',p:4,last:'COSTU envoyé le 20/10/2026',next:'Retour du RAR attendu',late:false,who:'L. Girard',href:'Phase4.dc.html'},
+{id:'CST-2026-0071',title:'Stockage de matériaux sur le quai',water:'Canal du Nord',p:5,last:'Projet de PV transmis au BAJC le 08/10/2026',next:'Sans retour BAJC · relance J+20',late:true,who:'J. Leroy',href:'Phase5.dc.html'},
+{id:'CST-2026-0054',title:'Rejet non autorisé',water:'Rivière Oise canalisée',p:6,last:'Tribunal saisi le 12/09/2026',next:'Jugement attendu',late:false,who:'P. Bernard',href:'Phase6.dc.html'}
+];
+const pick = (n) => () => this.setState({ phase: this.state.phase === n ? 0 : n });
+const phaseCards = names.map((label, i) => {
+const n = i + 1; const items = all.filter(r => r.p === n); const lateN = items.filter(r => r.late).length; const on = phase === n;
+return { n, label, count: items.length, hasAlert: lateN > 0, alertText: lateN + ' échéance dépassée', pick: pick(n), pressed: on ? 'true' : 'false',
+cardStyle: 'display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;font:inherit;color:#13212B;cursor:pointer;padding:16px;border-radius:12px;background:' + (on ? '#F1F6FA' : '#fff') + ';border:' + (on ? '2px solid #1A5A85' : '1px solid #DCE2E5') + ';margin:' + (on ? '0' : '1px') };
+});
+const tabs = [{ n: 0, label: 'Toutes' }].concat(short.map((l, i) => ({ n: i + 1, label: l }))).map(t => {
+const on = phase === t.n;
+return { label: t.label, pick: () => this.setState({ phase: t.n }), pressed: on ? 'true' : 'false',
+style: 'min-height:40px;padding:0 14px;border-radius:999px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;border:1px solid ' + (on ? '#1A5A85' : '#C9D1D5') + ';background:' + (on ? '#1A5A85' : '#fff') + ';color:' + (on ? '#fff' : '#26343D') };
+});
+const rows = all.filter(r => phase === 0 || r.p === phase).map(r => ({ ...r, onTime: !r.late, phaseLabel: short[r.p - 1],
+badgeStyle: 'display:inline-block;white-space:nowrap;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:' + badgeBg[r.p - 1] + ';color:' + badgeFg[r.p - 1] }));
+const waters = ['Rivière Oise canalisée','Canal latéral à l’Oise','Vieille Oise','Rivière Aisne canalisée','Canal du Nord','Canal de la Somme'];
+const max = Math.max(...waters.map(w => all.filter(r => r.water === w).length));
+const byWater = waters.map(w => { const c = all.filter(r => r.water === w).length; return { name: w, count: c, barStyle: 'height:8px;border-radius:4px;background:#1A5A85;width:' + Math.round(c / max * 100) + '%' }; });
+const tagS = (late) => 'flex:0 0 auto;font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;white-space:nowrap;background:' + (late ? '#8A3B05' : '#E3EEF6') + ';color:' + (late ? '#fff' : '#0F3D5C');
+const rowS = (late) => 'display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:12px 14px;border-radius:10px;border:1px solid ' + (late ? '#F0C9A3' : '#E3E8EA') + ';background:' + (late ? '#FFF6EC' : '#fff');
+const alerts = [
+{late:true,tag:'J+14 dépassé',title:'CST-2026-0118 · Avertissement affiché depuis 16 jours',detail:'Un COSTU peut être établi si l’infraction demeure.',action:'Passer au COSTU',href:'Phase4.dc.html'},
+{late:true,tag:'J+30 dépassé',title:'CST-2026-0088 · Notification du COSTU terminée depuis 31 jours',detail:'Un PV de grande voirie peut être établi si l’infraction demeure.',action:'Préparer le PV',href:'Phase5.dc.html'},
+{late:true,tag:'Relance J+20',title:'CST-2026-0071 · Projet de PV sans retour du BAJC',detail:'Sollicité le 08/10/2026 · prochaine relance J+30 le 07/11/2026.',action:'Ouvrir le dossier',href:'Phase5.dc.html'},
+{late:false,tag:'J+14 le 04/11',title:'CST-2026-0125 · Avertissement affiché le 21/10/2026',detail:'Vérifier sur place si l’infraction demeure avant l’échéance.',action:'Ouvrir le dossier',href:'Phase3.dc.html'},
+{late:false,tag:'À traiter',title:'2 nouveaux constats à caractériser',detail:'CST-2026-0142 (Canal du Nord) · CST-2026-0140 (Vieille Oise)',action:'Caractériser',href:'Phase2.dc.html'}
+].map(a => ({ ...a, tagStyle: tagS(a.late), rowStyle: rowS(a.late) }));
+return { phaseCards, tabs, rows, byWater, alerts, openCount: all.length, alertCount: all.filter(r => r.late).length, filterLabel: phase === 0 ? 'toutes phases' : 'phase ' + phase };
+}
+}
+</script>
+</body>
+</html>
