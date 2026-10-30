@@ -36,7 +36,7 @@ body{background:#DCE2E5}
 </div>
 <h1 style="margin:0;font-size:24px;font-weight:600">Constat envoyé au pôle domaine</h1>
 <div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:14px;color:#56636B">N° de constat</span><span class="mono" style="font-size:18px">CST-2026-0142</span></div>
-<p style="margin:0;font-size:15px;line-height:1.5;color:#3E4B53">Un accusé de réception vous a été envoyé par courriel. Le pôle domaine traitera votre constat dans les meilleurs délais.</p>
+<p style="margin:0;font-size:15px;line-height:1.5;color:#3E4B53">Un accusé de réception a été envoyé à <strong>{{mail}}</strong>. Le pôle domaine traitera votre constat dans les meilleurs délais.</p>
 </section>
 <section style="display:flex;flex-direction:column;gap:14px">
 <h2 style="margin:0;font-size:18px;font-weight:600">Suivi de ce constat</h2>
@@ -86,7 +86,12 @@ body{background:#DCE2E5}
 <div id="dc-root"></div>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1200}}'>
 class Component extends DCLogic {
-renderVals() { return {}; }
+renderVals() {
+const readMail = () => { try { return localStorage.getItem('dpf_email') || ''; } catch (e) { return ''; } };
+const mail = readMail() || 'prenom.nom@vnf.fr';
+const nom = (readMail().split('@')[0] || 'prenom.nom').split(/[._-]+/).filter(Boolean).map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+return { mail };
+}
 }
 </script>
 </body>

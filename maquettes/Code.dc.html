@@ -35,7 +35,7 @@ body{background:#DCE2E5}
 </div>
 <div style="display:flex;flex-direction:column;gap:8px">
 <h1 style="margin:0;font-size:26px;font-weight:600">Saisissez votre code</h1>
-<p style="margin:0;font-size:16px;line-height:1.5;color:#3E4B53">Un code à 6 chiffres vient d’être envoyé à <strong style="color:#13212B">camille.martin@vnf.fr</strong>. Il n’est valable qu’une fois.</p>
+<p style="margin:0;font-size:16px;line-height:1.5;color:#3E4B53">Un code à 6 chiffres vient d’être envoyé à <strong style="color:#13212B">{{mail}}</strong>. Il n’est valable qu’une fois.</p>
 </div>
 <fieldset style="border:0;margin:0;padding:0">
 <legend style="font-size:14px;font-weight:600;margin-bottom:10px;padding:0">Code à usage unique</legend>
@@ -59,7 +59,12 @@ body{background:#DCE2E5}
 <div id="dc-root"></div>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
-renderVals() { return {}; }
+renderVals() {
+const readMail = () => { try { return localStorage.getItem('dpf_email') || ''; } catch (e) { return ''; } };
+const mail = readMail() || 'prenom.nom@vnf.fr';
+const nom = (readMail().split('@')[0] || 'prenom.nom').split(/[._-]+/).filter(Boolean).map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+return { mail };
+}
 }
 </script>
 </body>
