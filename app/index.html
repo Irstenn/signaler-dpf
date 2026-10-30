@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signaler-DPF</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="./style.css">
+<script src="./config.js"></script>
+<script src="./demo.js"></script>
+</head>
+<body>
+<header class="topbar" id="topbar" hidden>
+  <div class="wrap topbar-in">
+    <a class="brand" href="#/">
+      <svg width="26" height="26" viewBox="0 0 28 28" aria-hidden="true" fill="none" stroke="#7FC1E8" stroke-width="2.4" stroke-linecap="round"><path d="M3 10c3-3 5-3 8 0s5 3 8 0 5-3 6-1"/><path d="M3 17c3-3 5-3 8 0s5 3 8 0 5-3 6-1"/></svg>
+      <span>signaler-dpf</span>
+    </a>
+    <nav id="nav" aria-label="Navigation principale"></nav>
+    <div class="me" id="me"></div>
+  </div>
+</header>
+<main id="app" aria-live="polite"></main>
+<div id="toast" class="toast" role="status" hidden></div>
+<script type="module" src="./app.js"></script>
+</body>
+</html>
