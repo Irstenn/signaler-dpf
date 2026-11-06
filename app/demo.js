@@ -137,14 +137,22 @@
         if (!mailReady()) return { error: null };
         const url = (window.DPF_CONFIG || {}).GOOGLE_SCRIPT_URL;
         const body = JSON.stringify({ to_email: email, code });
-        try {
-          const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body });
-          const txt = (await res.text()).trim();
-          return txt === 'ok' ? { error: null } : { error: { message: 'Envoi du courriel impossible : ' + txt } };
-        } catch (e) {
-          // Certains navigateurs bloquent la lecture de la réponse : on envoie sans la lire.
-          try { await fetch(url, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body }); return { error: null }; }
-          catch (e2) { return { error: { message: 'Envoi du courriel impossible : ' + e2.message } }; }
+        const RAISONS = {
+          'trop rapproché, réessayez dans quelques secondes': 'Un code vient déjà d’être envoyé à cette adresse. Attendez 30 secondes avant d’en demander un autre.',
+          'domaine non autorisé': 'Seules les adresses autorisées (par exemple @vnf.fr) peuvent recevoir un code.',
+          'limite quotidienne atteinte': 'Le nombre maximal de codes pour aujourd’hui est atteint. Réessayez demain.',
+          'adresse invalide': 'L’adresse électronique n’est pas valide.'
+        };
+        for (let essai = 0; essai < 2; essai++) {
+          try {
+            const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body });
+            const txt = (await res.text()).trim();
+            if (txt === 'ok') return { error: null };
+            return { error: { message: RAISONS[txt] || ('Envoi du courriel impossible : ' + txt.slice(0, 200)) } };
+          } catch (e) {
+            if (essai === 1) return { error: { message: 'Le service d’envoi des codes n’a pas répondu. Vérifiez la connexion internet et réessayez.' } };
+            await new Promise((r) => setTimeout(r, 1500));
+          }
         }
       },
       verifyOtp: async ({ email, token }) => {
