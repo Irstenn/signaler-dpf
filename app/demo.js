@@ -125,6 +125,8 @@
     save();
   }
 
+  const mailReady = () => /^https:\/\/script\.google\.com\//.test((window.DPF_CONFIG || {}).GOOGLE_SCRIPT_URL || '');
+
   window.__DPF_DEMO__ = {
     demo: true,
     auth: {
@@ -132,8 +134,18 @@
       signInWithOtp: async ({ email }) => {
         const code = String(Math.floor(100000 + Math.random() * 900000));
         codes[email] = code; sessionStorage.setItem('dpf_demo_code', code);
-        mail(email, 'Votre code de connexion Signaler-DPF', `Saisissez ce code dans l’application : ${code}\nIl n’est valable qu’une fois.`);
-        return { error: null };
+        if (!mailReady()) return { error: null };
+        const url = (window.DPF_CONFIG || {}).GOOGLE_SCRIPT_URL;
+        const body = JSON.stringify({ to_email: email, code });
+        try {
+          const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body });
+          const txt = (await res.text()).trim();
+          return txt === 'ok' ? { error: null } : { error: { message: 'Envoi du courriel impossible : ' + txt } };
+        } catch (e) {
+          // Certains navigateurs bloquent la lecture de la réponse : on envoie sans la lire.
+          try { await fetch(url, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body }); return { error: null }; }
+          catch (e2) { return { error: { message: 'Envoi du courriel impossible : ' + e2.message } }; }
+        }
       },
       verifyOtp: async ({ email, token }) => {
         const expected = codes[email] || sessionStorage.getItem('dpf_demo_code');
@@ -151,6 +163,7 @@
       createSignedUrl: async (path) => ({ data: { signedUrl: db.files[path] || placeholder(path.startsWith('demo:') ? path.slice(5) : path.split('/').pop()) }, error: null })
     }) },
     demoCode: () => sessionStorage.getItem('dpf_demo_code'),
+    demoMailReady: mailReady,
     demoMail: mail,
     demoOutbox: () => db.outbox.slice(),
     demoReset: () => { localStorage.removeItem(KEY); sessionStorage.clear(); location.hash = '#/connexion'; location.reload(); }

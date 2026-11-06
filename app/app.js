@@ -94,15 +94,8 @@ async function setUser(user) {
 }
 
 function renderDemoStrip() {
-  let el = document.getElementById('demostrip');
-  if (!DEMO()) { if (el) el.remove(); return; }
-  if (!el) { el = document.createElement('div'); el.id = 'demostrip'; el.className = 'demostrip'; document.body.prepend(el); }
-  el.innerHTML = `<span><b>Démonstration</b> · données fictives, aucun courriel réellement envoyé</span>
-    ${S.email ? `<label style="display:flex;align-items:center;gap:6px">Profil <select id="demoRole">${['agent', 'gestionnaire', 'bajc'].map((r) => `<option value="${r}" ${r === S.role ? 'selected' : ''}>${ROLE_LABEL[r]}</option>`).join('')}</select></label>` : ''}
-    <button type="button" id="demoReset">Réinitialiser les données</button>`;
-  const sel = document.getElementById('demoRole');
-  if (sel) sel.onchange = async () => { sessionStorage.setItem('dpf_profil', sel.value); await setUser({ email: S.email }); DASH.filtre = null; if (location.hash === '#/') route(); else location.hash = '#/'; };
-  document.getElementById('demoReset').onclick = () => { if (confirm('Remettre les données de démonstration à zéro ?')) sb.demoReset(); };
+  const el = document.getElementById('demostrip');
+  if (el) el.remove();
 }
 
 function renderNoConfig() {
@@ -131,7 +124,7 @@ function renderChrome(active) {
 async function route() {
   const parts = location.hash.replace(/^#\/?/, '').split('/');
   const r = parts[0] || '';
-  if (!S.email && r !== 'code') { renderChrome(); return viewLogin(); }
+  if (!S.email && r !== 'code' && r !== 'reinitialiser') { renderChrome(); return viewLogin(); }
   try {
     switch (r) {
       case 'connexion': renderChrome(); return viewLogin();
@@ -141,6 +134,7 @@ async function route() {
       case 'mes-constats': renderChrome('mes'); return viewMesConstats();
       case 'tableau': renderChrome('tableau'); return can('gestionnaire', 'bajc') ? viewTableau() : (location.hash = '#/signaler');
       case 'dossier': renderChrome('tableau'); return viewDossier(parts[1]);
+      case 'reinitialiser': if (DEMO() && confirm('Remettre les dossiers d’exemple d’origine ?')) sb.demoReset(); else location.hash = '#/'; return;
       case 'courriels': renderChrome('mails'); return viewCourriels();
       case 'utilisateurs': renderChrome('users'); return S.role === 'admin' ? viewUsers() : (location.hash = '#/');
       default:
@@ -174,7 +168,6 @@ function viewLogin() {
       <input class="in" id="mail" name="mail" type="email" required autocomplete="email" placeholder="prenom.nom@${h(C.ALLOWED_DOMAIN || 'vnf.fr')}" value="${h(sessionStorage.getItem('dpf_email') || '')}"></div>
     <div id="msg"></div>
     <button class="btn btn-p btn-block" type="submit">Recevoir mon code</button>
-    ${DEMO() ? '<div class="info small">Démonstration : saisissez n’importe quelle adresse et choisissez le profil à présenter. Le code s’affichera à l’écran suivant.</div>' : ''}
     <p class="small muted" style="margin:0">Ni mot de passe, ni création de compte : un code à usage unique vous est envoyé par courriel.</p>
   </form></div>`;
   document.getElementById('f').onsubmit = async (ev) => {
@@ -201,7 +194,7 @@ function viewCode() {
   <form class="mobile-body" id="f">
     <h1 style="font-size:26px">Saisissez votre code</h1>
     <p style="margin:0;color:var(--ink2)">Un code vient d’être envoyé à <b style="color:var(--ink)">${h(email)}</b>. Pensez à vérifier les courriers indésirables.</p>
-    ${DEMO() && sb.demoCode() ? `<div class="mailbox"><div class="small muted">Courriel reçu (simulation) · Votre code de connexion Signaler-DPF</div><div>Saisissez ce code dans l’application : <b class="mono" style="font-size:22px;letter-spacing:.15em">${h(sb.demoCode())}</b></div><button type="button" class="btn btn-s" id="fill" style="min-height:38px">Recopier le code</button></div>` : ''}
+    ${DEMO() && !sb.demoMailReady() && sb.demoCode() ? `<div class="mailbox"><div class="small" style="color:var(--late);font-weight:600">Envoi des courriels non configuré (voir GOOGLE_SCRIPT_URL dans config.js) : code affiché provisoirement.</div><div>Saisissez ce code dans l’application : <b class="mono" style="font-size:22px;letter-spacing:.15em">${h(sb.demoCode())}</b></div><button type="button" class="btn btn-s" id="fill" style="min-height:38px">Recopier le code</button></div>` : ''}
     <div><label class="lbl" for="code">Code à usage unique</label>
       <input class="in mono" id="code" name="code" inputmode="numeric" autocomplete="one-time-code" required maxlength="10" style="font-size:26px;letter-spacing:.3em;text-align:center;min-height:58px"></div>
     <div id="msg"></div>
@@ -395,7 +388,7 @@ async function viewTableau() {
 
   app.innerHTML = `<div class="page">
     <div class="title-row"><div><h1>Tableau de bord</h1><span class="muted">${h(ROLE_LABEL[S.role])} · ${open.length} dossier(s) ouvert(s)</span></div>
-      <div style="display:flex;flex-wrap:wrap;gap:10px"><input class="in" id="q" type="search" placeholder="N°, intitulé, voie d’eau…" aria-label="Rechercher un dossier" style="width:280px;max-width:100%" value="${h(DASH.q)}"><a class="btn btn-p" href="#/signaler">Nouveau constat</a></div></div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px"><input class="in" id="q" type="search" placeholder="N°, intitulé, voie d’eau…" aria-label="Rechercher un dossier" style="width:280px;max-width:100%" value="${h(DASH.q)}">${S.role === 'bajc' ? '' : '<a class="btn btn-p" href="#/signaler">Nouveau constat</a>'}</div></div>
     <section style="display:flex;flex-direction:column;gap:12px"><h2 style="font-size:18px">Flux de travail par phase</h2>
       <div class="cards">${cards.map((c) => `<button type="button" class="pcard" data-f="${c.n}"><span class="small muted">Phase ${c.n}</span><span class="l">${c.l}</span><span><span class="n">${c.count}</span> <span class="small muted">dossier(s)</span></span>${c.late ? `<span class="small" style="font-weight:600;color:var(--late)">${c.late} échéance(s) atteinte(s)</span>` : ''}</button>`).join('')}</div></section>
     <div class="cols">
@@ -666,10 +659,10 @@ async function viewCourriels() {
   const next = auto.filter((a) => a.d > t).sort((a, b) => a.d.localeCompare(b.d));
   const row = (when, to, s, b, id, tag) => `<li class="mail"><div class="item-top"><b>${h(s)}</b>${tag}</div><span class="small muted">${when} · à ${h(to)}</span><span class="small" style="white-space:pre-line">${h(b)}</span>${id ? `<a class="small" href="#/dossier/${id}">Ouvrir le dossier</a>` : ''}</li>`;
   app.innerHTML = `<div class="page" style="max-width:920px">
-    <div class="title-row"><div><h1>Courriels automatiques</h1><span class="muted">Ce que l’application envoie, ou enverra, sans action des agents. En démonstration, rien n’est réellement envoyé.</span></div></div>
+    <div class="title-row"><div><h1>Courriels automatiques</h1><span class="muted">Courriels générés automatiquement par l’application, sans action des agents.</span></div></div>
     <section class="card"><h2>Programmés</h2><ul class="alerts">${next.map((a) => row('Le ' + fmt(a.d), a.to, a.s, a.b, a.id, '<span class="pill">Programmé</span>')).join('') || '<li class="empty">Aucun envoi programmé.</li>'}</ul></section>
     <section class="card"><h2>Alertes envoyées (échéances atteintes)</h2><ul class="alerts">${past.map((a) => row('Le ' + fmt(a.d), a.to, a.s, a.b, a.id, '<span class="pill late">Alerte</span>')).join('') || '<li class="empty">Aucune.</li>'}</ul></section>
-    <section class="card"><h2>Envoyés pendant cette démonstration</h2><ul class="alerts">${sent.map((m) => row(fmtDT(m.at), m.to, m.subject, m.body, null, '<span class="pill ok">Envoyé</span>')).join('') || '<li class="empty">Aucun pour l’instant : connectez-vous, signalez ou validez une étape.</li>'}</ul></section>
+    <section class="card"><h2>Historique des notifications</h2><ul class="alerts">${sent.map((m) => row(fmtDT(m.at), m.to, m.subject, m.body, null, '<span class="pill ok">Notification</span>')).join('') || '<li class="empty">Aucune notification pour l’instant.</li>'}</ul></section>
   </div>`;
 }
 
