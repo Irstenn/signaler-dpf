@@ -15,7 +15,7 @@ window.DPF_CONFIG = {
 
   // Laisser vide pour accepter toutes les adresses (tests).
   // Mettre 'vnf.fr' pour n'accepter que les adresses VNF.
-  ALLOWED_DOMAIN: '',
+  ALLOWED_DOMAIN: 'vnf.fr',
 
   // Envoi du code de connexion par courriel (version POC) via Google Apps Script.
   // Coller ici l'URL de l'application web (se termine par /exec), voir outils/envoi-code.gs.
