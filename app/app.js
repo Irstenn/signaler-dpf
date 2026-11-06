@@ -194,7 +194,7 @@ function viewCode() {
   <form class="mobile-body" id="f">
     <h1 style="font-size:26px">Saisissez votre code</h1>
     <p style="margin:0;color:var(--ink2)">Un code vient d’être envoyé à <b style="color:var(--ink)">${h(email)}</b>. Pensez à vérifier les courriers indésirables.</p>
-    ${DEMO() && !sb.demoMailReady() && sb.demoCode() ? `<div class="mailbox"><div class="small" style="color:var(--late);font-weight:600">Envoi des courriels non configuré (voir GOOGLE_SCRIPT_URL dans config.js) : code affiché provisoirement.</div><div>Saisissez ce code dans l’application : <b class="mono" style="font-size:22px;letter-spacing:.15em">${h(sb.demoCode())}</b></div><button type="button" class="btn btn-s" id="fill" style="min-height:38px">Recopier le code</button></div>` : ''}
+    ${DEMO() && !sb.demoMailReady() && sb.demoCode() ? `<div class="mailbox"><div class="small muted">Courriel reçu (simulation) · Votre code de connexion Signaler-DPF</div><div>Saisissez ce code dans l’application : <b class="mono" style="font-size:22px;letter-spacing:.15em">${h(sb.demoCode())}</b></div><button type="button" class="btn btn-s" id="fill" style="min-height:38px">Recopier le code</button></div>` : ''}
     <div><label class="lbl" for="code">Code à usage unique</label>
       <input class="in mono" id="code" name="code" inputmode="numeric" autocomplete="one-time-code" required maxlength="10" style="font-size:26px;letter-spacing:.3em;text-align:center;min-height:58px"></div>
     <div id="msg"></div>

@@ -20,7 +20,7 @@ window.DPF_CONFIG = {
   // Envoi du code de connexion par courriel (version POC) via Google Apps Script.
   // Coller ici l'URL de l'application web (se termine par /exec), voir outils/envoi-code.gs.
   // Laisser vide = code affiché à l'écran.
-  GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxbhcVlrI3Ax7d8aH6h3R1MD0pdHr1ktd92n8Ka0EK33RWPwJviuhxN7i6euHRS_iNW/exec',
+  GOOGLE_SCRIPT_URL: '',
 
   // Boîtes aux lettres unitaires (BALU) destinataires des alertes
   BALU_DOMAINE: 'balu-domaine@vnf.fr',
